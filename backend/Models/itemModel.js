@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const lostSchema = mongoose.Schema(
+const itemSchema = mongoose.Schema(
     {
         name: {
             type:String,
             required: true,
         },
-        foundBy:{
+        lfName:{
             type: String,
             required: true,
         },
@@ -32,4 +32,4 @@ const lostSchema = mongoose.Schema(
     }
 );
 
-export const Lost = mongoose.model('lost', lostSchema);
+export const Item = mongoose.model('item', itemSchema);

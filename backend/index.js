@@ -1,7 +1,6 @@
 import express from "express";
 import {PORT, mongoDBURL} from "./config.js";
-import { Found } from "./Models/FoundModel.js";
-import { Lost } from "./Models/LostModel.js";
+import { Item } from "./Models/itemModel.js";
 
 const app = express();
 
