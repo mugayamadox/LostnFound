@@ -1,5 +1,7 @@
 import express from "express";
-import {PORT} from "./config.js";
+import {PORT, mongoDBURL} from "./config.js";
+import { Found } from "./Models/FoundModel.js";
+import { Lost } from "./Models/LostModel.js";
 
 const app = express();
 
@@ -13,3 +15,16 @@ app.get('/', (req, res)=>{
     console.log(req);
     return res.status(200).send("welcome to LostnFound!");
 })
+
+//connect the database
+mongoose
+    .connect(mongoDBURL)
+    .then(() =>{
+        console.log("connected to database");
+        app.listen(PORT, () =>{
+            console.log(`Server listening on port ${PORT}`);
+        })
+    })
+    .catch((error) =>{
+        console.log(error);
+    })
