@@ -108,7 +108,4 @@ Note: This project does not use routing.
 
 ## Contributing
 
-1. Create a new branch for your feature or bug fix
-2. Make your changes
-3. Ensure all tests pass
-4. Submit a pull request with a clear description of your changes
+1. Changes here are pushed to the `frontend` branch of the repo
