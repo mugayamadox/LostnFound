@@ -28,10 +28,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ItemFormData, itemSchema } from "@/lib/ItemSchema";
 import AddButton from "../secondary/AddButton";
-import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/hooks/use-toast";
 
-export default function AddItemForm() {
+export default function AddNew() {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const isMobile = useMediaQuery("(max-width: 767px)");
@@ -123,7 +123,7 @@ export default function AddItemForm() {
         <p className="text-xs text-muted-foreground mb-2">
           Specify whether the item is lost or found
         </p>
-        <RadioGroup defaultValue="lost" {...register("itemType")}>
+        <RadioGroup defaultValue="found" {...register("itemType")}>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="lost" id="lost" />
             <Label htmlFor="lost">Lost</Label>
