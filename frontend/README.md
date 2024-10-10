@@ -1,12 +1,12 @@
 # Frontend Project README
 
-Welcome to the frontend of LostnFound project! This README will guide you
-through the project structure, technologies used, and conventions to follow.
+Welcome to the frontend of the LostnFound project! This README will guide you through the project structure, technologies used, and conventions to follow.
 
 ## Project Overview
 
-This project is built using React with Vite and TypeScript. We use a
-component-based architecture with a focus on reusability and maintainability.
+This project is built using React with Vite and TypeScript. We use a component-based architecture with a focus on reusability and maintainability.
+
+**Live Demo**: [https://lostn-found.vercel.app/](https://lostn-found.vercel.app/)
 
 ## Technologies and Libraries
 
@@ -58,40 +58,32 @@ Note: This project does not use routing.
 ## Development Guidelines
 
 1. Component Creation:
-
    - Place major screen components in `components/primary/`
    - Put reusable components in `components/secondary/`
    - Use components from shadcn-ui in `components/ui/` when possible
 
 2. Layouts:
-
    - Create new layout components in the `layouts/` directory
 
 3. Custom Hooks:
-
    - Place all custom hooks in the `hooks/` directory
 
 4. Utility Functions and Schemas:
-
    - Add utility functions and Zod schemas to the `lib/` directory
 
 5. Styling:
-
    - Use Tailwind classes for styling
    - Define theme variables using CSS variables
 
 6. TypeScript:
-
    - Utilize TypeScript for type safety
    - Define interfaces and types as needed
 
 7. Code Style:
-
    - Follow the established code style in the project
    - Use meaningful variable and function names
 
 8. Performance:
-
    - Be mindful of component re-renders
    - Utilize React.memo and useCallback when appropriate
 
@@ -108,7 +100,4 @@ Note: This project does not use routing.
 
 ## Contributing
 
-1. Create a new branch for your feature or bug fix
-2. Make your changes
-3. Ensure all tests pass
-4. Submit a pull request with a clear description of your changes
+1. Changes here are pushed to the `frontend` branch of the repo
