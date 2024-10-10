@@ -1,50 +1,103 @@
-# React + TypeScript + Vite
+# Frontend Project README
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the frontend of the LostnFound project! This README will guide you through the project structure, technologies used, and conventions to follow.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is built using React with Vite and TypeScript. We use a component-based architecture with a focus on reusability and maintainability.
 
-## Expanding the ESLint configuration
+**Live Demo**: [https://lostn-found.vercel.app/](https://lostn-found.vercel.app/)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Technologies and Libraries
 
-- Configure the top-level `parserOptions` property like this:
+- React
+- Vite
+- TypeScript
+- Tailwind CSS (for styling)
+- Zod (for validation)
+- shadcn-ui (component library)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Project Structure
+
+```
+frontend/
+├── src/
+│   ├── components/
+│   │   ├── primary/
+│   │   ├── secondary/
+│   │   └── ui/
+│   ├── layouts/
+│   ├── hooks/
+│   ├── lib/
+│   └── ...
+├── ...
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Key Directories
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- `components/`: Contains all React components
+  - `primary/`: Major screen components used throughout the app
+  - `secondary/`: Other reusable components
+  - `ui/`: Components from shadcn-ui library
+- `layouts/`: Contains layout components for different screens
+- `hooks/`: Custom React hooks
+- `lib/`: Utility functions and validation schemas
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Styling
+
+We use Tailwind CSS for styling. CSS variables are used for theming.
+
+## Validation
+
+Zod is used for form validation and data schema definitions.
+
+## Routing
+
+Note: This project does not use routing.
+
+## Development Guidelines
+
+1. Component Creation:
+   - Place major screen components in `components/primary/`
+   - Put reusable components in `components/secondary/`
+   - Use components from shadcn-ui in `components/ui/` when possible
+
+2. Layouts:
+   - Create new layout components in the `layouts/` directory
+
+3. Custom Hooks:
+   - Place all custom hooks in the `hooks/` directory
+
+4. Utility Functions and Schemas:
+   - Add utility functions and Zod schemas to the `lib/` directory
+
+5. Styling:
+   - Use Tailwind classes for styling
+   - Define theme variables using CSS variables
+
+6. TypeScript:
+   - Utilize TypeScript for type safety
+   - Define interfaces and types as needed
+
+7. Code Style:
+   - Follow the established code style in the project
+   - Use meaningful variable and function names
+
+8. Performance:
+   - Be mindful of component re-renders
+   - Utilize React.memo and useCallback when appropriate
+
+9. Testing:
+   - Write unit tests for components and utility functions
+   - Ensure all tests pass before submitting a pull request
+
+## Getting Started
+
+1. Clone the repository
+2. Navigate to the frontend directory
+3. Install dependencies: `npm install`
+4. Start the development server: `npm run dev`
+
+## Contributing
+
+1. Changes here are pushed to the `frontend` branch of the repo
