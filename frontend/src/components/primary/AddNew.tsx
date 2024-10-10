@@ -22,7 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Camera, Upload } from "lucide-react";
+import { Camera, Upload, X } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,6 +34,7 @@ import { ToastAction } from "@/components/ui/toast";
 export default function AddItemForm() {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const [location, setLocation] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -44,6 +45,7 @@ export default function AddItemForm() {
     handleSubmit,
     formState: { errors },
     setValue,
+    resetField,
   } = useForm<ItemFormData>({
     resolver: zodResolver(itemSchema),
   });
@@ -105,6 +107,15 @@ export default function AddItemForm() {
       });
     }
   };
+
+  const handleRemoveImage = () => {
+    setPreview(null);
+    resetField("picture");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const formContent = (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div>
@@ -198,18 +209,32 @@ export default function AddItemForm() {
       <div className="space-y-2">
         <Label>Picture</Label>
         <p className="text-xs text-muted-foreground">
-          Upload or take a photo of the item
+          Upload {isMobile && "or take"} a photo of the item
         </p>
         <div
           {...getRootProps()}
-          className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer">
+          className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer relative">
           <input {...getInputProps()} />
           {preview ? (
-            <img
-              src={preview}
-              alt="Preview"
-              className="mx-auto max-h-40 object-contain"
-            />
+            <>
+              <img
+                src={preview}
+                alt="Preview"
+                className="mx-auto max-h-40 object-contain"
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="absolute top-2 right-2"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRemoveImage();
+                }}>
+                <X className="h-4 w-4" />
+                <span className="sr-only">Remove image</span>
+              </Button>
+            </>
           ) : (
             <div className="flex flex-col items-center">
               <Upload className="w-4 h-4 mb-2" />
@@ -219,27 +244,31 @@ export default function AddItemForm() {
             </div>
           )}
         </div>
-        <div className="flex py-2 w-full items-center justify-center">
-          <span className="">or</span>
-        </div>
-        <div className="mt-2 flex justify-center">
-          <Button
-            type="button"
-            variant="outline"
-            className="flex items-center"
-            onClick={handleCameraCapture}>
-            <Camera className="w-4 h-4 mr-2" />
-            Take Photo
-          </Button>
-          <input
-            type="file"
-            ref={fileInputRef}
-            accept="image/*"
-            capture="environment"
-            style={{ display: "none" }}
-            onChange={handleFileInputChange}
-          />
-        </div>
+        {isMobile && (
+          <>
+            <div className="flex py-2 w-full items-center justify-center">
+              <span className="">or</span>
+            </div>
+            <div className="mt-2 flex justify-center">
+              <Button
+                type="button"
+                variant="outline"
+                className="flex items-center"
+                onClick={handleCameraCapture}>
+                <Camera className="w-4 h-4 mr-2" />
+                Take Photo
+              </Button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/*"
+                capture="environment"
+                style={{ display: "none" }}
+                onChange={handleFileInputChange}
+              />
+            </div>
+          </>
+        )}
       </div>
 
       <div className="flex justify-end space-x-2">
