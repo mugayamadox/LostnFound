@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,9 +36,7 @@ export default function AddItemForm() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [location, setLocation] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isCameraActive, setIsCameraActive] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const {
@@ -60,6 +56,10 @@ export default function AddItemForm() {
   const onSubmit = (data: ItemFormData) => {
     console.log("Form submitted", data);
     setOpen(false);
+    toast({
+      title: "Item Added",
+      description: "Your item has been successfully added.",
+    });
   };
 
   const handleCancel = () => {
@@ -68,9 +68,7 @@ export default function AddItemForm() {
 
   const onDrop = React.useCallback(
     (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
-      setPreview(URL.createObjectURL(file));
-      setValue("picture", file);
+      handleFileSelection(acceptedFiles[0]);
     },
     [setValue]
   );
@@ -81,58 +79,32 @@ export default function AddItemForm() {
     multiple: false,
   });
 
-  const startCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        setIsCameraActive(true);
-      }
-    } catch (err) {
-      console.error("Error accessing camera:", err);
+  const handleFileSelection = (file: File) => {
+    setPreview(URL.createObjectURL(file));
+    setValue("picture", file);
+  };
+
+  const handleCameraCapture = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      handleFileSelection(file);
+    } else {
       toast({
         variant: "destructive",
-        title: "Camera Access Error",
-        description:
-          "Unable to access the camera. Please check your permissions.",
+        title: "Error",
+        description: "No image was selected or captured. Please try again.",
         action: <ToastAction altText="Try again">Try again</ToastAction>,
       });
     }
   };
-
-  const capturePhoto = () => {
-    if (videoRef.current && canvasRef.current) {
-      const context = canvasRef.current.getContext("2d");
-      if (context) {
-        context.drawImage(
-          videoRef.current,
-          0,
-          0,
-          canvasRef.current.width,
-          canvasRef.current.height
-        );
-        canvasRef.current.toBlob((blob) => {
-          if (blob) {
-            const file = new File([blob], "captured_image.jpg", {
-              type: "image/jpeg",
-            });
-            setPreview(URL.createObjectURL(file));
-            setValue("picture", file);
-          }
-        }, "image/jpeg");
-      }
-    }
-    stopCamera();
-  };
-
-  const stopCamera = () => {
-    if (videoRef.current && videoRef.current.srcObject) {
-      const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
-      tracks.forEach((track) => track.stop());
-      setIsCameraActive(false);
-    }
-  };
-
   const formContent = (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div>
@@ -222,48 +194,31 @@ export default function AddItemForm() {
           <p className="text-xs text-red-500">{errors.location.message}</p>
         )}
       </div>
+
       <div className="space-y-2">
         <Label>Picture</Label>
         <p className="text-xs text-muted-foreground">
           Upload or take a photo of the item
         </p>
-        {!isCameraActive && (
-          <div
-            {...getRootProps()}
-            className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer">
-            <input className="shadow-none" {...getInputProps()} />
-            {preview ? (
-              <img
-                src={preview}
-                alt="Preview"
-                className="mx-auto max-h-40 object-contain"
-              />
-            ) : (
-              <div className="flex flex-col items-center">
-                <Upload className="w-4 h-4 mb-2" />
-                <p className="text-xs">
-                  Drag & drop an image here, or click to select one
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-        {isCameraActive && (
-          <div className="relative">
-            <video ref={videoRef} autoPlay className="w-full" />
-            <canvas
-              ref={canvasRef}
-              style={{ display: "none" }}
-              width="640"
-              height="480"
+        <div
+          {...getRootProps()}
+          className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer">
+          <input {...getInputProps()} />
+          {preview ? (
+            <img
+              src={preview}
+              alt="Preview"
+              className="mx-auto max-h-40 object-contain"
             />
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-              <Button onClick={capturePhoto} variant="secondary">
-                Capture
-              </Button>
+          ) : (
+            <div className="flex flex-col items-center">
+              <Upload className="w-4 h-4 mb-2" />
+              <p className="text-xs">
+                Drag & drop an image here, or click to select one
+              </p>
             </div>
-          </div>
-        )}
+          )}
+        </div>
         <div className="flex py-2 w-full items-center justify-center">
           <span className="">or</span>
         </div>
@@ -272,12 +227,21 @@ export default function AddItemForm() {
             type="button"
             variant="outline"
             className="flex items-center"
-            onClick={isCameraActive ? stopCamera : startCamera}>
+            onClick={handleCameraCapture}>
             <Camera className="w-4 h-4 mr-2" />
-            {isCameraActive ? "Stop Camera" : "Take Photo"}
+            Take Photo
           </Button>
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept="image/*"
+            capture="environment"
+            style={{ display: "none" }}
+            onChange={handleFileInputChange}
+          />
         </div>
       </div>
+
       <div className="flex justify-end space-x-2">
         <Button type="button" variant="outline" onClick={handleCancel}>
           Cancel

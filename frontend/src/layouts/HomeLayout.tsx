@@ -8,10 +8,10 @@ const HomeLayout = () => {
       <div className="absolute w-full h-full">
         <MapArea />
       </div>
-      <div className="absolute top-10 w-full flex items-center justify-center px-4">
+      <div className="fixed top-10 w-full flex items-center justify-center px-4">
         <SearchBar />
       </div>
-      <div className="absolute right-10 sm:right-20 bottom-10 sm:bottom-20">
+      <div className="fixed right-10 sm:right-20 bottom-10 sm:bottom-20">
         <AddNew />
       </div>
     </div>
