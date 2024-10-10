@@ -1,3 +1,4 @@
+import React, { forwardRef } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import {
@@ -7,23 +8,32 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 
-const AddButton = () => {
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger className="absolute -top-1/2">
-          <Button
-            variant={"ghost"}
-            className="rounded-full p-0 w-14 h-14 border-2 bg-primary border-primary-foreground ">
-            <Plus />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Add Lost and Found Item</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  );
-};
+interface AddButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+const AddButton = forwardRef<HTMLButtonElement, AddButtonProps>(
+  (props, ref) => {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              ref={ref}
+              size="icon"
+              className="rounded-full md:w-14 md:h-14"
+              {...props}>
+              <Plus />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Post Item</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+);
+
+AddButton.displayName = "AddButton";
 
 export default AddButton;

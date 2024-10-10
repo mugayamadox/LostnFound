@@ -1,5 +1,5 @@
 const MapArea = () => {
-  return <div>MapArea</div>;
+  return <div></div>;
 };
 
 export default MapArea;

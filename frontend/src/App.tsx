@@ -1,6 +1,12 @@
+import { Toaster } from "./components/ui/toaster";
 import "./index.css";
-import MainLayout from "./layouts/MainLayout";
+import HomeLayout from "./layouts/HomeLayout";
 
 export default function App() {
-  return <MainLayout />;
+  return (
+    <>
+      <HomeLayout />
+      <Toaster />
+    </>
+  );
 }
