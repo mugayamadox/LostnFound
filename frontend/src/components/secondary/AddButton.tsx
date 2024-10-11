@@ -20,7 +20,7 @@ const AddButton = forwardRef<HTMLButtonElement, AddButtonProps>(
             <Button
               ref={ref}
               size="icon"
-              className="rounded-full md:w-14 md:h-14"
+              className="rounded-full w-14 h-14 md:w-14 md:h-14"
               {...props}>
               <Plus />
             </Button>
