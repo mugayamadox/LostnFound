@@ -1,7 +1,7 @@
-import Item from '../models/Item.js'; // Import your Item model
+const { Item } = require('../models/Item.js'); // This matches the CommonJS module export
 
 // Function to filter items based on query parameters
-export const getFilteredItems = async (req, res) => {
+const getFilteredItems = async (req, res) => {
     try {
         const { type, location, name } = req.query; // Extract query parameters
 
@@ -17,3 +17,6 @@ export const getFilteredItems = async (req, res) => {
         res.status(500).json({ message: 'Error retrieving filtered items', error });
     }
 };
+
+// Export as a module
+module.exports = { getFilteredItems };

@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
 // items collection with a foreign key to the report table, name, description, status and updated at columns
-const ItemSchema = new Schema({
+const itemSchema = new Schema({
     reportId: { type: Schema.Types.ObjectId, ref: 'Report', required: true },
     typeId: { type: Schema.Types.ObjectId, ref: 'ItemType', required: true },
     name: { type: String, required: true },
@@ -12,7 +12,7 @@ const ItemSchema = new Schema({
 });
 
 // comments collection with a foreign key to the report table, comment and created at columns
-const CommentSchema = new Schema({
+const commentSchema = new Schema({
     reportId: { type: Schema.Types.ObjectId, ref: 'Report', required: true },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     content: { type: String, required: true },
@@ -22,4 +22,4 @@ const CommentSchema = new Schema({
 const Item = mongoose.model('Item', itemSchema);
 const Comment = mongoose.model('Comment', commentSchema);
 
-module.exports = mongoose.model('Item', ItemSchema);
+export { Item, Comment };

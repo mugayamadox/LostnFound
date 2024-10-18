@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const reportController = require('../controllers/reportController');
+import { Router } from 'express';
+const router = Router();
+import { reportLostItem } from '../controllers/reportController.js';
 
-router.post('/report/lost', reportController.reportLostItem);
-router.post('/report/found', reportController.reportFoundItem);
+const reportRoutes = router.post('/report/lost', reportLostItem);
+// router.post('/report/found', reportController.reportFoundItem);
 
-module.exports = router;
+export default reportRoutes;

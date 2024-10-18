@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/postgres');
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../database/db.js';
 
 // Report table with a description, type, userId, and location columns
 const Report = sequelize.define('Report', {
@@ -23,6 +23,10 @@ const Report = sequelize.define('Report', {
             key: 'id'
         }
     },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     description: {
         type: DataTypes.TEXT,
         allowNull: false
@@ -37,33 +41,6 @@ const Report = sequelize.define('Report', {
     }
 });
 
-Report.sync();
-
-// Geolocation table with a foreign key to the report table, latitude and longitude columns
-const Geolocation = sequelize.define('Geolocation', {
-    reportId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: Report,
-            key: 'id'
-        }
-    },
-    latitude: {
-        type: DataTypes.DECIMAL,
-        allowNull: false
-    },
-    longitude: {
-        type: DataTypes.DECIMAL,
-        allowNull: false
-    },
-    address: {
-        type: DataTypes.STRING,
-        allowNull: false
-    }
-});
-
-Geolocation.sync();
 
 // item types table with id and type_name columns
 const ItemType = sequelize.define('ItemType', {
@@ -73,11 +50,4 @@ const ItemType = sequelize.define('ItemType', {
     }
 });
 
-ItemType.sync();
-
-// ===========================================
-// read, write, update, delete, search functions here
-
-
-
-module.exports = Report;
+export { Report, ItemType };

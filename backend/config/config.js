@@ -1,4 +1,5 @@
-require('dotenv').config(); // To load environment variables from .env file
+import dotenv from 'dotenv';
+dotenv.config(); // To load environment variables from .env file
 
 const config = {
     development: {
@@ -50,5 +51,4 @@ const config = {
         }
     }
 };
-
-module.exports = config[process.env.NODE_ENV || 'development'];
+export default config[process.env.NODE_ENV || 'development'];
